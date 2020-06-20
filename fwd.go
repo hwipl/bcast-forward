@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/binary"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -10,15 +11,27 @@ import (
 )
 
 var (
-	dport uint16 = 6112
-	bcast        = net.IPv4(255, 255, 255, 255)
-	dests        = []net.IP{
+	bcast = net.IPv4(255, 255, 255, 255)
+	dport uint16
+	dests = []net.IP{
 		net.IPv4(192, 168, 1, 1),
 		net.IPv4(192, 168, 1, 2),
 	}
 )
 
 func main() {
+	// parse command line arguments
+	var port = 6112
+	flag.IntVar(&port, "p", port,
+		"only forward packets with this destination `port`")
+	flag.Parse()
+
+	// make sure port is valid
+	if port < 1 || port > 65535 {
+		log.Fatal("invalid port")
+	}
+	dport = uint16(port)
+
 	// open raw socket
 	conn, err := net.ListenPacket("ip4:udp", "0.0.0.0")
 	if err != nil {
@@ -30,6 +43,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Printf("Forwarding broadcast packets with destination port %d\n",
+		dport)
 
 	// create packet buffer and start reading packets from raw socket
 	buf := make([]byte, 2048)
