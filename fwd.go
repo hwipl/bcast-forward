@@ -1,14 +1,17 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
-	"golang.org/x/net/ipv4"
 	"log"
 	"net"
+
+	"golang.org/x/net/ipv4"
 )
 
 var (
-	bcast = net.IPv4(255, 255, 255, 255)
+	dport uint16 = 6112
+	bcast        = net.IPv4(255, 255, 255, 255)
 )
 
 func main() {
@@ -31,7 +34,14 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		// only handle broadcast traffic
 		if !header.Dst.Equal(bcast) {
+			continue
+		}
+
+		// only handle traffic to configured udp destination port
+		if binary.BigEndian.Uint16(payload[2:4]) != dport {
 			continue
 		}
 		fmt.Println(header, payload, controlMsg)
