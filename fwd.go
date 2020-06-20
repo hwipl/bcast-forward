@@ -12,6 +12,10 @@ import (
 var (
 	dport uint16 = 6112
 	bcast        = net.IPv4(255, 255, 255, 255)
+	dests        = []net.IP{
+		net.IPv4(192, 168, 1, 1),
+		net.IPv4(192, 168, 1, 2),
+	}
 )
 
 func main() {
@@ -45,5 +49,15 @@ func main() {
 			continue
 		}
 		fmt.Println(header, payload, controlMsg)
+
+		// forward packet to configured destination IPs
+		for _, ip := range dests {
+			// set new destination ip and send packet
+			header.Dst = ip
+			err = raw.WriteTo(header, payload, nil)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
 	}
 }
