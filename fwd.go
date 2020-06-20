@@ -60,7 +60,7 @@ func main() {
 	// create packet buffer and start reading packets from raw socket
 	buf := make([]byte, 2048)
 	for {
-		header, payload, controlMsg, err := raw.ReadFrom(buf)
+		header, payload, _, err := raw.ReadFrom(buf)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -71,10 +71,14 @@ func main() {
 		}
 
 		// only handle traffic to configured udp destination port
-		if binary.BigEndian.Uint16(payload[2:4]) != dport {
+		destPort := binary.BigEndian.Uint16(payload[2:4])
+		if destPort != dport {
 			continue
 		}
-		fmt.Println(header, payload, controlMsg)
+
+		srcPort := binary.BigEndian.Uint16(payload[0:2])
+		fmt.Printf("Forwarding packet: %s:%d -> %s:%d\n", header.Src,
+			srcPort, header.Dst, destPort)
 
 		// forward packet to configured destination IPs
 		for _, ip := range dests {
