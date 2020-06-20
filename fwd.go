@@ -7,6 +7,10 @@ import (
 	"net"
 )
 
+var (
+	bcast = net.IPv4(255, 255, 255, 255)
+)
+
 func main() {
 	// open raw socket
 	conn, err := net.ListenPacket("ip4:udp", "0.0.0.0")
@@ -26,6 +30,9 @@ func main() {
 		header, payload, controlMsg, err := raw.ReadFrom(buf)
 		if err != nil {
 			log.Fatal(err)
+		}
+		if !header.Dst.Equal(bcast) {
+			continue
 		}
 		fmt.Println(header, payload, controlMsg)
 	}
