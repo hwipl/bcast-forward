@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	// make sure port is valid
-	if port < 1 || port > 65535 {
+	if port < 0 || port > 65535 {
 		log.Fatal("invalid port")
 	}
 	dport = uint16(port)
@@ -79,7 +79,7 @@ func main() {
 
 		// only handle traffic to configured udp destination port
 		destPort := binary.BigEndian.Uint16(payload[2:4])
-		if destPort != dport {
+		if dport > 0 && destPort != dport {
 			continue
 		}
 
