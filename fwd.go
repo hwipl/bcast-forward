@@ -61,8 +61,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Forwarding broadcast packets with destination port %d "+
-		"to IPs %v\n", dport, dests)
+	// print some info before entering main loop
+	fmt.Printf("Receiving broadcast packets with destination port %d.\n",
+		dport)
+	fmt.Printf("Forwarding received packets to IPs %s\n", dests)
 
 	// create packet buffer and start reading packets from raw socket
 	buf := make([]byte, 2048)
@@ -84,7 +86,7 @@ func main() {
 		}
 
 		srcPort := binary.BigEndian.Uint16(payload[0:2])
-		fmt.Printf("Forwarding packet: %s:%d -> %s:%d\n", header.Src,
+		fmt.Printf("Got packet: %s:%d -> %s:%d\n", header.Src,
 			srcPort, header.Dst, destPort)
 
 		// forward packet to configured destination IPs
