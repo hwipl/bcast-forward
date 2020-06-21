@@ -17,8 +17,8 @@ var (
 	dests []net.IP
 )
 
-func main() {
-	// parse command line arguments
+// parse_command_line parses the command line arguments
+func parse_command_line() {
 	var port = 6112
 	var dest = ""
 	flag.IntVar(&port, "p", port,
@@ -48,7 +48,11 @@ func main() {
 		}
 		dests = append(dests, ip)
 	}
+}
 
+// run_socket_loop runs the main socket loop, reading packets from the socket
+// and forwarding them to destination ip addresses
+func run_socket_loop() {
 	// open raw socket
 	conn, err := net.ListenPacket("ip4:udp", "0.0.0.0")
 	if err != nil {
@@ -99,4 +103,9 @@ func main() {
 			}
 		}
 	}
+}
+
+func main() {
+	parse_command_line()
+	run_socket_loop()
 }
