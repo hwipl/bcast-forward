@@ -127,6 +127,9 @@ func run_socket_loop() {
 		fmt.Printf("Got packet: %s:%d -> %s:%d\n", header.Src,
 			srcPort, header.Dst, destPort)
 
+		// remove udp header checksum in forwarded packets
+		binary.BigEndian.PutUint16(payload[6:8], 0)
+
 		// forward packet to configured destination IPs
 		for _, ip := range dests {
 			// set new source and destination ip and send packet
