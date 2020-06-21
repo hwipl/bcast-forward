@@ -39,7 +39,14 @@ func main() {
 		log.Fatal("you must specify a destination IP")
 	}
 	for _, d := range strings.Split(dest, ",") {
-		dests = append(dests, net.ParseIP(d))
+		if d == "" {
+			continue
+		}
+		ip := net.ParseIP(d).To4()
+		if ip == nil {
+			log.Fatal("invalid destination IP: ", d)
+		}
+		dests = append(dests, ip)
 	}
 
 	// open raw socket
