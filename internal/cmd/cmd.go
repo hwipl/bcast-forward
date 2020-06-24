@@ -19,8 +19,8 @@ var (
 	dests []net.IP
 )
 
-// parse_command_line parses the command line arguments
-func parse_command_line() {
+// parseCommandLine parses the command line arguments
+func parseCommandLine() {
 	var port = 6112
 	var dest = ""
 	var src = ""
@@ -66,6 +66,6 @@ func parse_command_line() {
 
 // Run is the main entry point
 func Run() {
-	parse_command_line()
-	run_socket_loop()
+	parseCommandLine()
+	runSocketLoop()
 }

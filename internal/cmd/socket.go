@@ -13,9 +13,9 @@ var (
 	bcast = net.IPv4(255, 255, 255, 255)
 )
 
-// run_socket_loop runs the main socket loop, reading packets from the socket
+// runSocketLoop runs the main socket loop, reading packets from the socket
 // and forwarding them to destination ip addresses
-func run_socket_loop() {
+func runSocketLoop() {
 	// open raw socket
 	conn, err := net.ListenPacket("ip4:udp", "0.0.0.0")
 	if err != nil {
@@ -29,7 +29,7 @@ func run_socket_loop() {
 	}
 
 	// print some info before entering main loop
-	print_info()
+	printInfo()
 
 	// create packet buffer and start reading packets from raw socket
 	buf := make([]byte, 2048)

@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-// print_info prints an info/settings header to the console
-func print_info() {
+// printInfo prints an info/settings header to the console
+func printInfo() {
 	sep := strings.Repeat("-", 70)
 	port := fmt.Sprintf("%d", dport)
 	if dport == 0 {
