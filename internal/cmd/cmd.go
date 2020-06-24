@@ -11,10 +11,16 @@ import (
 	"golang.org/x/net/ipv4"
 )
 
+// global variables set via command line arguments:
 var (
 	bcast = net.IPv4(255, 255, 255, 255)
+	// dport is the destination port for packet matching
 	dport uint16
+
+	// srcIP is the source IP used for source IP rewriting
 	srcIP net.IP
+
+	// dests is the list of IPs to forward the packets to
 	dests []net.IP
 )
 
