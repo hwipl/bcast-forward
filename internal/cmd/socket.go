@@ -58,12 +58,12 @@ func runSocketLoop() {
 		binary.BigEndian.PutUint16(payload[6:8], 0)
 
 		// forward packet to configured destination IPs
-		for _, ip := range dests {
+		for _, d := range dests {
 			// set new source and destination ip and send packet
 			if srcIP != nil {
 				header.Src = srcIP
 			}
-			header.Dst = ip
+			header.Dst = d.ip
 			err = raw.WriteTo(header, payload, nil)
 			if err != nil {
 				log.Fatal(err)

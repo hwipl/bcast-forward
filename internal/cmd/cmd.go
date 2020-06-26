@@ -16,7 +16,7 @@ var (
 	srcIP net.IP
 
 	// dests is the list of IPs to forward the packets to
-	dests []net.IP
+	dests []*dest
 )
 
 // parseCommandLine parses the command line arguments
@@ -56,11 +56,11 @@ func parseCommandLine() {
 		if d == "" {
 			continue
 		}
-		ip := net.ParseIP(d).To4()
-		if ip == nil {
+		dst := newDest(d)
+		if dst == nil {
 			log.Fatal("invalid destination IP: ", d)
 		}
-		dests = append(dests, ip)
+		dests = append(dests, dst)
 	}
 }
 

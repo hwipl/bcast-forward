@@ -19,8 +19,8 @@ func printInfo() {
 
 	fmt.Println(sep)
 	fmt.Printf(pFmt, port)
-	for _, ip := range dests {
-		fmt.Printf(dFmt, ip)
+	for _, d := range dests {
+		fmt.Printf(dFmt, d.ip)
 	}
 	if srcIP != nil {
 		fmt.Printf(sFmt, srcIP)
