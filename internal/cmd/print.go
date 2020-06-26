@@ -15,12 +15,16 @@ func printInfo() {
 
 	pFmt := "Receiving broadcast packets with destination port:    %s\n"
 	dFmt := "Forwarding packets to IP:                             %s\n"
+	rFmt := "  Rewriting source address to IP:                     %s\n"
 	sFmt := "Rewriting source address to IP:                       %s\n"
 
 	fmt.Println(sep)
 	fmt.Printf(pFmt, port)
 	for _, d := range dests {
 		fmt.Printf(dFmt, d.ip)
+		if srcIP == nil {
+			fmt.Printf(rFmt, d.srcIP)
+		}
 	}
 	if srcIP != nil {
 		fmt.Printf(sFmt, srcIP)
