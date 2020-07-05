@@ -3,7 +3,9 @@
 bcast-forward is a Linux command line tool that forwards UDP broadcast packets
 with destination IP `255.255.255.255` to a specified list of unicast addresses.
 For example, it can be used for playing old LAN games, that use broadcasts to
-discover game servers, over a VPN tunnel.
+discover game servers, over a VPN tunnel. bcast-forward uses an IP/UDP raw
+socket for receiving and sending packets. For a pcap version, see
+[bcast-forward-pcap](https://github.com/hwipl/bcast-forward-pcap).
 
 ## Installation
 
