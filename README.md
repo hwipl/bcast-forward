@@ -13,7 +13,7 @@ You can download and install bcast-forward with its dependencies to your GOPATH
 or GOBIN with the go tool:
 
 ```console
-$ go get github.com/hwipl/bcast-forward/cmd/bcast-forward
+$ go install github.com/hwipl/bcast-forward/cmd/bcast-forward
 ```
 
 ## Usage
