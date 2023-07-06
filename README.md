@@ -22,10 +22,20 @@ You can run `bcast-forward` with the following command line arguments:
 
 ```
   -d IPs
-	forward broadcast packets to this comma-separated list of IPs, e.g.,
+        forward broadcast packets to this comma-separated list of IPs, e.g.,
         "192.168.1.1,192.168.1.2"
+  -keep-source-ip
+        keep source address
   -p port
         only forward packets with this destination port (default 6112)
   -s IP
         rewrite source address to this IP
 ```
+
+By default, bcast-forward rewrites the source IP address in forwarded packets
+to an IP address that is determined by the forwarding host's routing to each
+destination unicast address, usually an address of the outgoing network
+interface. Alternatively, you can specify a single IP address with `-s` that
+will be used as source IP address for all destination addresses. If you want to
+keep the original sender's IP address, you can disable source IP address
+rewriting completely with `-keep-source-ip`.
