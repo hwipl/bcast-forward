@@ -61,11 +61,7 @@ func runSocketLoop() {
 		for _, d := range dests {
 			// set new source and destination ip and send packet
 			if !keepSrcIP {
-				if srcIP != nil {
-					header.Src = srcIP
-				} else {
-					header.Src = d.srcIP
-				}
+				header.Src = d.srcIP
 			}
 			header.Dst = d.ip
 			err = raw.WriteTo(header, payload, nil)
